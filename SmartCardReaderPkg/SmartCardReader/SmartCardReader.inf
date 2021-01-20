@@ -95,3 +95,8 @@
 
 [Guids]
 
+[BuildOptions]
+  MSFT:*_*_*_CC_FLAGS = /D UEFI_DRIVER
+  INTEL:*_*_*_CC_FLAGS = /D UEFI_DRIVER
+  GCC:*_*_*_CC_FLAGS = -D UEFI_DRIVER
+  RVCT:*_*_*_CC_FLAGS = -D UEFI_DRIVER

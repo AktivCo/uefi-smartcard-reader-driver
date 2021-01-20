@@ -337,7 +337,7 @@ InitializeUsbCcidDevice (
 
   Log0(PCSC_LOG_DEBUG);
 
-  if (IFD_SUCCESS != IFDHCreateChannel(Lun, (DWORD)UsbCcidDevice)) {
+  if (IFD_SUCCESS != IFDHCreateChannelByDevice(Lun, UsbCcidDevice)) {
     return EFI_UNSUPPORTED;
   }
 

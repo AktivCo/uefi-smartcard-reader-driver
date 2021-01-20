@@ -387,6 +387,12 @@ whichever location your reader resides.
 	 * By default it is setup for for most recent version of the API (V3.0)
 	 */
 
+#ifdef UEFI_DRIVER
+
+RESPONSECODE IFDHCreateChannelByDevice(DWORD Lun, VOID* Device);
+
+#endif // UEFI_DRIVER
+
 #ifndef IFDHANDLERv2
 
 	/*

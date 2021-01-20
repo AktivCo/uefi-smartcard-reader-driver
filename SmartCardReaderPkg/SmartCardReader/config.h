@@ -26,8 +26,10 @@ ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE.
 */
 
+#ifndef UEFI_DRIVER
 /* we build for the UEFI driver */
 #define UEFI_DRIVER
+#endif // UEFI_DRIVER
 
 /* no log or debug messages */
 #define NO_LOG

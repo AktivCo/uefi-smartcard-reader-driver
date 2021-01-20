@@ -98,10 +98,10 @@ static _usbDevice usbDevice[CCID_DRIVER_MAX_READERS];
  *					OpenUEFI
  *
  ****************************************************************************/
-status_t OpenUEFI(unsigned int reader_index, DWORD Channel)
+status_t OpenUEFI(unsigned int reader_index, VOID* Device)
 {
 	int return_value = STATUS_UNSUCCESSFUL;
-	USB_CCID_DEV *UsbCcidDevice = (USB_CCID_DEV *)Channel;
+	USB_CCID_DEV *UsbCcidDevice = (USB_CCID_DEV *)Device;
 	int index;
 	UINT8                       EndpointNumber;
 	EFI_USB_ENDPOINT_DESCRIPTOR EndpointDescriptor;
@@ -111,7 +111,7 @@ status_t OpenUEFI(unsigned int reader_index, DWORD Channel)
 	EFI_USB_DEVICE_REQUEST  DevReq;
 	UINT32 Status_uint;
 
-	DEBUG_COMM3("Reader index: %X, Channel: %p", reader_index, UsbCcidDevice);
+	DEBUG_COMM3("Reader index: %X, Device: %p", reader_index, UsbCcidDevice);
 
 	UsbIo = UsbCcidDevice->UsbIo;
 	usbDevice[reader_index].UsbIo = UsbIo;

@@ -23,7 +23,7 @@
 
 #ifndef __CCID_UEFI_H__
 #define __CCID_UEFI_H__
-status_t OpenUEFI(unsigned int reader_index, DWORD channel);
+status_t OpenUEFI(unsigned int reader_index, VOID* device);
 
 status_t OpenUEFIByName(unsigned int reader_index, /*@null@*/ char *device);
 

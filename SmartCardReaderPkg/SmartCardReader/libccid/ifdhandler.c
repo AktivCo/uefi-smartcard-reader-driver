@@ -86,8 +86,8 @@ static unsigned int T1_card_timeout(double f, double d, int TC1, int BWI,
 static int get_IFSC(ATR_t *atr, int *i);
 
 
-static RESPONSECODE CreateChannelByNameOrChannel(DWORD Lun,
-	LPSTR lpcDevice, DWORD Channel)
+static RESPONSECODE CreateChannelByNameOrChannelOrDevice(DWORD Lun,
+	LPSTR lpcDevice, DWORD Channel, VOID* Device)
 {
 	RESPONSECODE return_value = IFD_SUCCESS;
 	int reader_index;
@@ -100,10 +100,19 @@ static RESPONSECODE CreateChannelByNameOrChannel(DWORD Lun,
 	{
 		DEBUG_INFO3("Lun: " DWORD_X ", device: %s", Lun, lpcDevice);
 	}
-	else
+	else if (!Device)
 	{
 		DEBUG_INFO3("Lun: " DWORD_X ", Channel: " DWORD_X, Lun, Channel);
 	}
+	else
+	{
+		DEBUG_INFO3("Lun: " DWORD_X ", Device: " DWORD_X, Lun, Device);
+	}
+
+#ifdef UEFI_DRIVER
+	if (!Device)
+		return IFD_COMMUNICATION_ERROR;
+#endif
 
 	if (-1 == (reader_index = GetNewReaderIndex(Lun)))
 		return IFD_COMMUNICATION_ERROR;
@@ -132,7 +141,12 @@ static RESPONSECODE CreateChannelByNameOrChannel(DWORD Lun,
 	if (lpcDevice)
 		ret = OpenPortByName(reader_index, lpcDevice);
 	else
+#ifndef UEFI_DRIVER
 		ret = OpenPort(reader_index, Channel);
+#else
+		ret = OpenPort(reader_index, Device);
+#endif
+
 
 	if (ret != STATUS_SUCCESS)
 	{
@@ -209,12 +223,12 @@ error:
 	}
 
 	return return_value;
-} /* CreateChannelByNameOrChannel */
+} /* CreateChannelByNameOrChannelOrDevice */
 
 
 EXTERNAL RESPONSECODE IFDHCreateChannelByName(DWORD Lun, LPSTR lpcDevice)
 {
-	return CreateChannelByNameOrChannel(Lun, lpcDevice, -1);
+	return CreateChannelByNameOrChannelOrDevice(Lun, lpcDevice, -1, NULL);
 }
 
 EXTERNAL RESPONSECODE IFDHCreateChannel(DWORD Lun, DWORD Channel)
@@ -252,8 +266,13 @@ EXTERNAL RESPONSECODE IFDHCreateChannel(DWORD Lun, DWORD Channel)
 	 *
 	 * IFD_SUCCESS IFD_COMMUNICATION_ERROR
 	 */
-	return CreateChannelByNameOrChannel(Lun, NULL, Channel);
+	return CreateChannelByNameOrChannelOrDevice(Lun, NULL, Channel, NULL);
 } /* IFDHCreateChannel */
+
+EXTERNAL RESPONSECODE IFDHCreateChannelByDevice(DWORD Lun, VOID* Device)
+{
+	return CreateChannelByNameOrChannelOrDevice(Lun, NULL, -1, Device);
+} /* IFDHCreateChannelByDevice */
 
 
 EXTERNAL RESPONSECODE IFDHCloseChannel(DWORD Lun)
