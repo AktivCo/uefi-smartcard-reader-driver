@@ -56,7 +56,12 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define INTERNAL
 #define PCSC_API
 #endif
+
+#ifndef UEFI_DRIVER
 #define EXTERNAL PCSC_API
+#else
+#define EXTERNAL
+#endif
 
 #if defined __GNUC__
 
