@@ -38,6 +38,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #include <Library/BaseLib.h>
 #include <Protocol/SmartCardReader.h>
 
+#include "config.h"
 #include "CcidDriver.h"
 #include "SmartCardReader_impl.h"
 
@@ -590,7 +591,7 @@ SmartCardReaderDriverBindingStart (
     duplicate_usb_device(reader_index, new_reader_index);
 
     /* copy the UEFI device */
-    *new_UsbCcidDevice = *UsbCcidDevice;
+    memcpy(new_UsbCcidDevice, UsbCcidDevice, sizeof(*UsbCcidDevice));
     new_UsbCcidDevice->Lun = Lun;
     new_UsbCcidDevice->SlotNumber = slot;
 

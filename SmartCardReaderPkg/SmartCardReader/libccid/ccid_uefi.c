@@ -443,7 +443,8 @@ _ccid_descriptor *get_ccid_descriptor(unsigned int reader_index)
 void duplicate_usb_device(unsigned int reader_index,
 	unsigned int new_reader_index)
 {
-	usbDevice[new_reader_index] = usbDevice[reader_index];
+	memcpy(&usbDevice[new_reader_index], &usbDevice[reader_index],
+	       sizeof(usbDevice[reader_index]));
 } /* get_usb_device */
 
 /*****************************************************************************
