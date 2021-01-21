@@ -60,7 +60,7 @@
 
 #define max( a, b )   ( ( ( a ) > ( b ) ) ? ( a ) : ( b ) )
 #ifndef offsetof
-#define offsetof(TYPE, MEMBER) ((size_t) &((TYPE *)0)->MEMBER)
+#define offsetof(TYPE, MEMBER) ((size_t) ((char*)&((TYPE *)0)->MEMBER - (char*)0))
 #endif
 
 #ifndef BSWAP_16
