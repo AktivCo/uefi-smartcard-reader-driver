@@ -1472,7 +1472,7 @@ time_request_ICCD_B:
 	old_timeout = ccid_descriptor -> readTimeout;
 
 time_request:
-	length = sizeof(cmd);
+	length = ccid_descriptor->dwMaxCCIDMessageLength;
 	ret = ReadPort(reader_index, &length, cmd);
 
 	/* restore the original value of read timeout */
